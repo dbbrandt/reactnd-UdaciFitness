@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    // flex: 1,
+    flex: 1,
     alignItems: "center"
   },
   iosSubmitBtn: {
