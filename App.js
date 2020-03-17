@@ -1,6 +1,6 @@
 // import 'react-native-gesture-handler';
 import React from "react";
-import { View, Platform } from "react-native";
+import { View, Platform, StatusBar } from "react-native";
 import AddEntry from "./components/AddEntry";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -11,6 +11,15 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Constants from 'expo-constants';
+
+const UdaciStatusBar = ({ backgroundColor, ...props }) => {
+  return (
+    <View style={{backgroundColor: backgroundColor, height: Constants.statusBarHeight }} >
+      <StatusBar translucent backgroundColor={backgroundColor} {...props }/>
+    </View>
+  )
+};
 
 const navigationOptions = {
   headerShown: false
@@ -53,7 +62,7 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer)}>
         <View style={{ flex: 1 }}>
-          <View style={{ marginTop: 20 }} />
+          <UdaciStatusBar backgroundColor={ purple } barStyle='light-content'/>
           <NavigationContainer>
             <Tabs.Navigator
               initialRouteName="Add Entry"
