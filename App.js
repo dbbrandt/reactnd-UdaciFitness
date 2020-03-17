@@ -12,6 +12,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
+const navigationOptions = {
+  headerShown: false
+};
+
 const tabBarOptions = {
   activeTintColor: Platform.OS === "ios" ? purple : white,
   inactiveTintColor: gray,
@@ -25,6 +29,18 @@ const tabBarOptions = {
     shadowRadius: 6,
     shadowOpacity: 1
   }
+};
+
+const HistoryTabOptions = {
+ tabBarIcon: () => (
+    <Ionicons name="ios-bookmarks" size={30} color={purple} />
+  )
+};
+
+const AddEntryOptions = {
+  tabBarIcon: () => (
+    <FontAwesome name="plus-square" size={30} color={purple} />
+  )
 };
 
 const Tabs =
@@ -41,28 +57,11 @@ export default class App extends React.Component {
           <NavigationContainer>
             <Tabs.Navigator
               initialRouteName="Add Entry"
+              navigationOptions={ navigationOptions }
               tabBarOptions={ tabBarOptions }
             >
-              <Tabs.Screen
-                name="History"
-                component={History}
-                activeTintColor={Platform.OS === "ios" ? purple : white}
-                options={{
-                  tabBarIcon: () => (
-                    <Ionicons name="ios-bookmarks" size={30} color={purple} />
-                  )
-                }}
-              />
-              <Tabs.Screen
-                name="Add Entry"
-                component={AddEntry}
-                options={{
-                  activeTintColor: Platform.OS === "ios" ? purple : white,
-                  tabBarIcon: () => (
-                    <FontAwesome name="plus-square" size={30} color={purple} />
-                  )
-                }}
-              />
+              <Tabs.Screen name="History" component={History} options={ HistoryTabOptions }/>
+              <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryOptions }/>
             </Tabs.Navigator>
           </NavigationContainer>
         </View>
