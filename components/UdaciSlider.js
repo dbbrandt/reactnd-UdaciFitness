@@ -15,7 +15,7 @@ export default function UdaciSlider({ max, unit, step, value, onChange }) {
       />
       <View style={styles.metricCounter}>
         <Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
-        <Text style={{fontsize: 18, color: gray}}>{unit}</Text>
+        <Text style={{fontSize: 18, color: gray}}>{unit}</Text>
       </View>
     </View>
   );
