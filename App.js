@@ -31,13 +31,13 @@ const tabBarOptions = {
   }
 };
 
-const HistoryTabOptions = {
+const HistoryTabIcon = {
  tabBarIcon: () => (
     <Ionicons name="ios-bookmarks" size={30} color={purple} />
   )
 };
 
-const AddEntryOptions = {
+const AddEntryIcon = {
   tabBarIcon: () => (
     <FontAwesome name="plus-square" size={30} color={purple} />
   )
@@ -60,8 +60,8 @@ export default class App extends React.Component {
               navigationOptions={ navigationOptions }
               tabBarOptions={ tabBarOptions }
             >
-              <Tabs.Screen name="History" component={History} options={ HistoryTabOptions }/>
-              <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryOptions }/>
+              <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
+              <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryIcon }/>
             </Tabs.Navigator>
           </NavigationContainer>
         </View>
