@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import MetricCard from "./MetricCard";
 import { white } from "../utils/colors";
+import { timeToString, getDailyReminderValue } from "../utils/helpers";
+import TextButton from "./TextButton";
+import { addEntry } from "../actions";
+import { removeEntry } from "../utils/api";
 
 class EntryDetail extends Component {
   componentDidMount() {
-    console.log('EntryDetail here!');
+    console.log("EntryDetail here!");
 
     const { navigation, entryId } = this.props;
 
@@ -15,7 +19,19 @@ class EntryDetail extends Component {
     const day = entryId.slice(8);
     navigation.setOptions({
       title: `${month}/${day}/${year}`
-    })
+    });
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.metrics !== null && !nextProps.metrics.today;
+  }
+
+  reset = () => {
+    const { remove, goBack, entryId } = this.props;
+
+    remove();
+    goBack();
+    removeEntry(entryId);
   };
 
   render() {
@@ -23,7 +39,10 @@ class EntryDetail extends Component {
 
     return (
       <View style={styles.container}>
-        <MetricCard metrics={metrics}/>
+        <MetricCard metrics={metrics} />
+        <TextButton style={{margin: 20}} onPress={this.reset}>
+          RESET
+        </TextButton>
       </View>
     );
   }
@@ -36,7 +55,7 @@ const styles = StyleSheet.create({
   }
 });
 
-function mapStateToProps( state, { route }) {
+function mapStateToProps(state, { route }) {
   const { entryId } = route.params;
 
   return {
@@ -45,4 +64,18 @@ function mapStateToProps( state, { route }) {
   };
 }
 
-export default connect(mapStateToProps)(EntryDetail);
+function mapDispatchToProps(dispatch, { navigation, route }) {
+  const { entryId } = route.params;
+
+  return {
+    remove: () =>
+      dispatch(
+        addEntry({
+          [entryId]: timeToString() === entryId ? getDailyReminderValue() : null
+        })
+      ),
+    goBack: () => navigation.goBack()
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);
