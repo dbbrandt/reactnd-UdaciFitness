@@ -80,7 +80,7 @@ class AddEntry extends Component {
 
     this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }));
 
-    // Navigate to home
+    this.toHome();
 
     submitEntry({ key, entry });
 
@@ -95,10 +95,16 @@ class AddEntry extends Component {
       })
     );
 
-    // Route to Home
+    this.toHome();
 
     removeEntry(key);
   };
+
+  toHome = () => {
+    const { navigate } = this.props.navigation;
+    navigate('History');
+  };
+
   render() {
     const metaInfo = getMetricMetaInfo();
 
