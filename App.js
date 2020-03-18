@@ -12,6 +12,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Constants from 'expo-constants';
+import { createStackNavigator} from "@react-navigation/stack";
+import EntryDetail from "./components/EntryDetail";
+import StackNavigator from "@react-navigation/stack/src/navigators/createStackNavigator";
 
 const UdaciStatusBar = ({ backgroundColor, ...props }) => {
   return (
@@ -57,6 +60,28 @@ const Tabs =
     ? createBottomTabNavigator()
     : createMaterialTopTabNavigator();
 
+const Home = () => {
+  return(
+    <Tabs.Navigator
+      initialRouteName="Add Entry"
+      navigationOptions={ navigationOptions }
+      tabBarOptions={ tabBarOptions }
+    >
+      <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
+      <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryIcon }/>
+    </Tabs.Navigator>
+  )
+} ;
+
+const MainStack = createStackNavigator();
+
+const EntryDetailOptions = {
+  headerTintColor: white,
+  headerStyle: {
+    backgroundColor: purple,
+  },
+};
+
 export default class App extends React.Component {
   render() {
     return (
@@ -64,14 +89,14 @@ export default class App extends React.Component {
         <View style={{ flex: 1 }}>
           <UdaciStatusBar backgroundColor={ purple } barStyle='light-content'/>
           <NavigationContainer>
-            <Tabs.Navigator
-              initialRouteName="Add Entry"
-              navigationOptions={ navigationOptions }
-              tabBarOptions={ tabBarOptions }
-            >
-              <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
-              <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryIcon }/>
-            </Tabs.Navigator>
+            <MainStack.Navigator>
+              <MainStack.Screen name='Home' component={Home}/>
+              <MainStack.Screen
+                name='Entry Detail'
+                component={ EntryDetail }
+                options={ EntryDetailOptions }
+              />
+            </MainStack.Navigator>
           </NavigationContainer>
         </View>
       </Provider>
