@@ -24,6 +24,10 @@ const UdaciStatusBar = ({ backgroundColor, ...props }) => {
   )
 };
 
+const navigationOptions = {
+  headerShown: false
+};
+
 const tabBarOptions = {
   activeTintColor: Platform.OS === "ios" ? purple : white,
   inactiveTintColor: gray,
@@ -60,6 +64,7 @@ const Home = () => {
   return(
     <Tabs.Navigator
       initialRouteName="Add Entry"
+      navigationOptions={ navigationOptions }
       tabBarOptions={ tabBarOptions }
     >
       <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
