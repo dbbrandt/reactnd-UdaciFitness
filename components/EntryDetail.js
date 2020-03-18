@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { connect } from 'react-redux';
+import MetricCard from "./MetricCard";
+import { white } from "../utils/colors";
 
 class EntryDetail extends Component {
   componentDidMount() {
     console.log('EntryDetail here!');
 
-    const { entryId } = this.props.route.params;
-    const { navigation } = this.props;
+    const { navigation, entryId } = this.props;
 
     const year = entryId.slice(0, 4);
     const month = entryId.slice(5, 7);
@@ -17,13 +19,30 @@ class EntryDetail extends Component {
   };
 
   render() {
-    const { entryId } = this.props.route.params;
+    const { metrics } = this.props;
+
     return (
-      <View>
-        <Text>Entry Detail - {entryId}</Text>
+      <View style={styles.container}>
+        <MetricCard metrics={metrics}/>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: white,
+    padding: 15
+  }
+});
 
-export default EntryDetail;
+function mapStateToProps( state, { route }) {
+  const { entryId } = route.params;
+
+  return {
+    entryId,
+    metrics: state[entryId]
+  };
+}
+
+export default connect(mapStateToProps)(EntryDetail);
