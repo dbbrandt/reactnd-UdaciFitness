@@ -14,6 +14,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Constants from 'expo-constants';
 import { createStackNavigator} from "@react-navigation/stack";
 import EntryDetail from "./components/EntryDetail";
+import Live from "./components/Live";
 import StackNavigator from "@react-navigation/stack/src/navigators/createStackNavigator";
 
 const UdaciStatusBar = ({ backgroundColor, ...props }) => {
@@ -55,6 +56,13 @@ const AddEntryIcon = {
   )
 };
 
+const LiveTabIcon = {
+  tabBarIcon: () => (
+    <Ionicons name="ios-speedometer" size={30} color={purple} />
+  )
+};
+
+
 const Tabs =
   Platform.OS === "ios"
     ? createBottomTabNavigator()
@@ -69,6 +77,7 @@ const Home = () => {
     >
       <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
       <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryIcon }/>
+      <Tabs.Screen name="Live" component={Live} options={ LiveTabIcon }/>
     </Tabs.Navigator>
   )
 } ;
