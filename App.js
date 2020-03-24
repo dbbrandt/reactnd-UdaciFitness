@@ -11,18 +11,23 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Constants from 'expo-constants';
-import { createStackNavigator} from "@react-navigation/stack";
+import Constants from "expo-constants";
+import { createStackNavigator } from "@react-navigation/stack";
 import EntryDetail from "./components/EntryDetail";
 import Live from "./components/Live";
-import StackNavigator from "@react-navigation/stack/src/navigators/createStackNavigator";
+import { setLocalNotification } from "./utils/helpers";
 
 const UdaciStatusBar = ({ backgroundColor, ...props }) => {
   return (
-    <View style={{backgroundColor: backgroundColor, height: Constants.statusBarHeight }} >
-      <StatusBar translucent backgroundColor={backgroundColor} {...props }/>
+    <View
+      style={{
+        backgroundColor: backgroundColor,
+        height: Constants.statusBarHeight
+      }}
+    >
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
-  )
+  );
 };
 
 const navigationOptions = {
@@ -45,23 +50,16 @@ const tabBarOptions = {
 };
 
 const HistoryTabIcon = {
- tabBarIcon: () => (
-    <Ionicons name="ios-bookmarks" size={30} color={purple} />
-  )
+  tabBarIcon: () => <Ionicons name="ios-bookmarks" size={30} color={purple} />
 };
 
 const AddEntryIcon = {
-  tabBarIcon: () => (
-    <FontAwesome name="plus-square" size={30} color={purple} />
-  )
+  tabBarIcon: () => <FontAwesome name="plus-square" size={30} color={purple} />
 };
 
 const LiveTabIcon = {
-  tabBarIcon: () => (
-    <Ionicons name="ios-speedometer" size={30} color={purple} />
-  )
+  tabBarIcon: () => <Ionicons name="ios-speedometer" size={30} color={purple} />
 };
-
 
 const Tabs =
   Platform.OS === "ios"
@@ -69,41 +67,52 @@ const Tabs =
     : createMaterialTopTabNavigator();
 
 const Home = () => {
-  return(
+  return (
     <Tabs.Navigator
       initialRouteName="Add Entry"
-      navigationOptions={ navigationOptions }
-      tabBarOptions={ tabBarOptions }
+      navigationOptions={navigationOptions}
+      tabBarOptions={tabBarOptions}
     >
-      <Tabs.Screen name="History" component={History} options={ HistoryTabIcon }/>
-      <Tabs.Screen name="Add Entry" component={AddEntry} options={ AddEntryIcon }/>
-      <Tabs.Screen name="Live" component={Live} options={ LiveTabIcon }/>
+      <Tabs.Screen
+        name="History"
+        component={History}
+        options={HistoryTabIcon}
+      />
+      <Tabs.Screen
+        name="Add Entry"
+        component={AddEntry}
+        options={AddEntryIcon}
+      />
+      <Tabs.Screen name="Live" component={Live} options={LiveTabIcon} />
     </Tabs.Navigator>
-  )
-} ;
+  );
+};
 
 const MainStack = createStackNavigator();
 
 const EntryDetailOptions = {
   headerTintColor: white,
   headerStyle: {
-    backgroundColor: purple,
-  },
+    backgroundColor: purple
+  }
 };
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       <Provider store={createStore(reducer)}>
         <View style={{ flex: 1 }}>
-          <UdaciStatusBar backgroundColor={ purple } barStyle='light-content'/>
+          <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
           <NavigationContainer>
             <MainStack.Navigator>
-              <MainStack.Screen name='Home' component={Home}/>
+              <MainStack.Screen name="Home" component={Home} />
               <MainStack.Screen
-                name='Entry Detail'
-                component={ EntryDetail }
-                options={ EntryDetailOptions }
+                name="Entry Detail"
+                component={EntryDetail}
+                options={EntryDetailOptions}
               />
             </MainStack.Navigator>
           </NavigationContainer>
